@@ -32,7 +32,6 @@ inst/tests/lib_tests_xlsx.R -text
 inst/tests/log_plot.jpeg -text
 inst/tests/test.export.R -text
 inst/tests/test.import.R -text
-inst/tests/test.lowlevel.R -text
 inst/tests/test.workbook.R -text
 inst/tests/test_import.xls -text
 inst/tests/test_import.xlsx -text
