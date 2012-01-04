@@ -15,6 +15,7 @@ R/Picture.R -text
 R/PrintSetup.R -text
 R/Row.R -text
 R/Workbook.R -text
+R/addDataFrame.R -text
 R/comment.R -text
 R/otherEffects.R -text
 R/read.xlsx.R -text
