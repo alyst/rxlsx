@@ -17,10 +17,10 @@ R/Row.R -text
 R/Workbook.R -text
 R/addDataFrame.R -text
 R/comment.R -text
-R/getColumns.R -text
 R/otherEffects.R -text
 R/read.xlsx.R -text
 R/read.xlsx2.R -text
+R/readColumns.R -text
 R/utilities.R -text
 R/write.xlsx.R -text
 R/write.xlsx2.R -text
