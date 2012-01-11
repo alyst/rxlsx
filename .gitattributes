@@ -39,8 +39,10 @@ inst/tests/test_import.xlsx -text
 man/Alignment.Rd -text
 man/Border.Rd -text
 man/Cell.Rd -text
+man/CellProtection.Rd -text
 man/CellStyle.Rd -text
 man/Comment.Rd -text
+man/DataFormat.Rd -text
 man/Font.Rd -text
 man/NamedRanges.Rd -text
 man/OtherEffects.Rd -text
