@@ -43,6 +43,7 @@ man/CellProtection.Rd -text
 man/CellStyle.Rd -text
 man/Comment.Rd -text
 man/DataFormat.Rd -text
+man/Fill.Rd -text
 man/Font.Rd -text
 man/NamedRanges.Rd -text
 man/OtherEffects.Rd -text
