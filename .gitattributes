@@ -54,6 +54,7 @@ man/Workbook.Rd -text
 man/addDataFrame.Rd -text
 man/addHyperlink.Rd -text
 man/read.xlsx.Rd -text
+man/readColumns.Rd -text
 man/write.xlsx.Rd -text
 man/xlsx-package.Rd -text
 other/RInterface.java -text
