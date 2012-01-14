@@ -25,7 +25,6 @@ R/utilities.R -text
 R/write.xlsx.R -text
 R/write.xlsx2.R -text
 /WISHLIST -text
-inst/doc/docMethods.txt -text
 inst/doc/xlsx.Rnw -text
 inst/doc/xlsx.pdf -text
 inst/java/RInterface.jar -text
