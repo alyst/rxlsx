@@ -46,6 +46,7 @@ man/Fill.Rd -text
 man/Font.Rd -text
 man/NamedRanges.Rd -text
 man/OtherEffects.Rd -text
+man/POI_constants.Rd -text
 man/Picture.Rd -text
 man/PrintSetup.Rd -text
 man/Row.Rd -text
