@@ -21,6 +21,7 @@ R/otherEffects.R -text
 R/read.xlsx.R -text
 R/read.xlsx2.R -text
 R/readColumns.R -text
+R/readRows.R -text
 R/utilities.R -text
 R/write.xlsx.R -text
 R/write.xlsx2.R -text
@@ -56,6 +57,7 @@ man/addDataFrame.Rd -text
 man/addHyperlink.Rd -text
 man/read.xlsx.Rd -text
 man/readColumns.Rd -text
+man/readRows.Rd -text
 man/write.xlsx.Rd -text
 man/xlsx-package.Rd -text
 other/RInterface.java -text
