@@ -7,7 +7,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 public class RInterface {
-	
+
+  public static final int NA_INT = -2147483648;
   public int NCOLS = 0;
   public int NROWS = 0;
   public Cell[][] CELL_ARRAY;
@@ -189,7 +190,7 @@ public class RInterface {
      
      int N = data.length;  
      for (int i=0; i<N; i++) {
-       if (!showNA && data[i]==-2147483648) {
+       if (!showNA && data[i]==NA_INT) {
          CELL_ARRAY[startRowIndex+i][startColIndex].setCellType(3);
        } else {
          CELL_ARRAY[startRowIndex+i][startColIndex].setCellValue(data[i]);
@@ -202,7 +203,7 @@ public class RInterface {
 		     
      int N = data.length;  
      for (int i=0; i<N; i++) {
-       if (!showNA && data[i]==-2147483648) {
+       if (!showNA && data[i]==NA_INT) {
          CELL_ARRAY[startRowIndex+i][startColIndex].setCellType(3);
        } else {
          CELL_ARRAY[startRowIndex+i][startColIndex].setCellValue(data[i]);
