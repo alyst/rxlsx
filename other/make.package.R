@@ -29,27 +29,17 @@
 
 ##################################################################
 #
-.move.java.classes <- function(do=TRUE)
+.build.java <- function()
 {
-  wd <- getwd()
-  if (do){
-    setwd(javadir)
+  # build maven project
+  # and put the jars (package and its dependencies) to the inst/java/ directory
+  system(paste("mvn -f ", file.path(pkgdir,'other', 'pom.xml'), ' package' ) )
 
-   # create my jar and move it to the inst/java/ directory
-   setwd("bin")
-   system("jar -cvf RInterface.jar dev/*.class")
-   file.copy("RInterface.jar", paste(pkgdir,
-     "inst/java/RInterface.jar", sep=""), overwrite=TRUE)
-   unlink("RInterface.jar")
-   setwd("..")
-
-   ## # move the source files to have for reference ... 
-   ## file.copy("src/dev/RInterface.java", paste(pkgdir, 
-   ##   "other/RInterface.java", sep=""), overwrite=TRUE)
-   ## file.copy("src/tests/TestRInterface.java", paste(pkgdir, 
-   ##   "other/TestRInterface.java", sep=""), overwrite=TRUE)
-  }
-  setwd(wd)
+  ## # move the source files to have for reference ... 
+  ## file.copy("src/dev/RInterface.java", paste(pkgdir, 
+  ##   "other/RInterface.java", sep=""), overwrite=TRUE)
+  ## file.copy("src/tests/TestRInterface.java", paste(pkgdir, 
+  ##   "other/TestRInterface.java", sep=""), overwrite=TRUE)
   invisible()
 }
 
@@ -87,11 +77,11 @@
 ##################################################################
 
 #version <- NULL        # keep increasing the minor
-version <- "0.4.2"      # if you want to set it by hand
+version <- "0.5.0"      # if you want to set it by hand
 
 .setEnv("WORK")   # "HOME" "WORK2" "LAPTOP"
 
-.move.java.classes(TRUE)  # move java classes
+.build.java()  # move java classes
 
 # change the version
 version <- .update.DESCRIPTION(pkgdir, version)
