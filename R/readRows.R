@@ -22,7 +22,7 @@ readRows <- function(sheet, startRow, endRow, startColumn,
   
   noRows <- endRow - startRow + 1
 
-  Rintf <- .jnew("dev/RInterface")  # create an interface object 
+  Rintf <- J("org.cran.rxlsx.RInterface")  # create the reference to interface class
   
   res <- matrix(NA, nrow=noRows, ncol=endColumn-startColumn+1)
   for (i in seq_len(noRows)) {

@@ -65,7 +65,7 @@ readRange <- function(range, sheet, colClasses = "character")
   if (length(colClasses) < noColumns)
     colClasses <- rep(colClasses, noColumns)
   
-  Rintf <- .jnew("dev/RInterface")  # create an interface object 
+  Rintf <- J("org.cran.rxlsx.RInterface")  # create the reference to interface class
   res <- vector("list", length=noColumns)
   for (i in seq_len(noColumns)){
     res[[i]] <- switch(colClasses[i],
