@@ -63,3 +63,6 @@ man/xlsx-package.Rd -text
 other/RInterface.java -text
 other/TestRInterface.java -text
 other/make.package.R -text
+other/pom.xml -text
+other/src/main/java/org/cran/rexcel/RInterface.java -text
+other/src/test/java/org/cran/rexcel/TestRInterface.java -text
