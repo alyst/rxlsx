@@ -63,4 +63,3 @@ man/xlsx-package.Rd -text
 other/RInterface.java -text
 other/TestRInterface.java -text
 other/make.package.R -text
-other/runUnitTests.R -text
