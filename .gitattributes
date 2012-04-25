@@ -28,7 +28,7 @@ R/write.xlsx2.R -text
 /WISHLIST -text
 inst/doc/xlsx.Rnw -text
 inst/doc/xlsx.pdf -text
-inst/java/RInterface.jar -text
+inst/java/rexcel-0.5.0.jar -text
 inst/tests/crash_write_xlsx.R -text
 inst/tests/lib_tests_xlsx.R -text
 inst/tests/log_plot.jpeg -text
