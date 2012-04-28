@@ -260,7 +260,25 @@ public class RCellBlock {
      * The other properties of cell styles are preserved.
      * @see modifyCellStyle() 
      */
-    public void setFill( final XSSFColor foreground, final XSSFColor background, final short pattern, int[] rowIndices, int[] colIndices )
+    public void setFill( final short foreground, final short background, final short pattern,
+                         int[] rowIndices, int[] colIndices )
+    {
+        modifyCellStyle(rowIndices, colIndices, new CellStyleModifier() {
+            public void modify( CellStyle style ) {
+                style.setFillPattern( pattern );
+                style.setFillForegroundColor( foreground );
+                style.setFillBackgroundColor( background );
+            }
+        } );
+    }
+
+    /**
+     * Sets the fill style of a given sub-block of cells, XSSF version.
+     * The other properties of cell styles are preserved.
+     * @see modifyCellStyle() 
+     */
+    public void setFill( final XSSFColor foreground, final XSSFColor background, final short pattern,
+                         int[] rowIndices, int[] colIndices )
     {
         modifyCellStyle(rowIndices, colIndices, new CellStyleModifier() {
             public void modify( CellStyle style ) {
@@ -269,7 +287,7 @@ public class RCellBlock {
                     XSSFCellStyle xssfStyle = (XSSFCellStyle)style;
                     xssfStyle.setFillForegroundColor( foreground );
                     xssfStyle.setFillBackgroundColor( background );
-                }
+                } else throw new RuntimeException( "Current cell style doesn't support XSSF colors");
             }
         } );
     }
@@ -290,6 +308,40 @@ public class RCellBlock {
 
     /**
      * Sets the border style of a given sub-block of cells.
+     * If provided border type if BORDER_NONE the corresponding border is not modified.
+     * The other properties of cell styles are preserved.
+     * @see modifyCellStyle() 
+     */
+    public void putBorder( final short borderTop, final short topBorderColor,
+                           final short borderBottom, final short bottomBorderColor,
+                           final short borderLeft, final short leftBorderColor,
+                           final short borderRight, final short rightBorderColor,
+                           int[] rowIndices, int[] colIndices )
+    {
+        modifyCellStyle(rowIndices, colIndices, new CellStyleModifier() {
+            public void modify( CellStyle style ) {
+                if ( borderTop != CellStyle.BORDER_NONE ) {
+                    style.setBorderTop( borderTop );
+                    style.setTopBorderColor( topBorderColor );
+                }
+                if ( borderBottom != CellStyle.BORDER_NONE ) {
+                    style.setBorderBottom( borderBottom );
+                    style.setBottomBorderColor( bottomBorderColor );
+                }
+                if ( borderLeft != CellStyle.BORDER_NONE ) {
+                    style.setBorderLeft( borderLeft );
+                    style.setLeftBorderColor( leftBorderColor );
+                }
+                if ( borderRight != CellStyle.BORDER_NONE ) {
+                    style.setBorderRight( borderRight );
+                    style.setRightBorderColor( rightBorderColor );
+                }
+            }
+        } );
+    }
+
+    /**
+     * Sets the border style of a given sub-block of cells, XSSF version.
      * If provided border type if BORDER_NONE the corresponding border is not modified.
      * The other properties of cell styles are preserved.
      * @see modifyCellStyle() 
@@ -320,7 +372,7 @@ public class RCellBlock {
                         xssfStyle.setBorderRight( borderRight );
                         xssfStyle.setRightBorderColor( rightBorderColor );
                     }
-                }
+                } else throw new RuntimeException( "Current cell style doesn't support XSSF colors");
             }
         } );
     }
