@@ -206,13 +206,20 @@ public class RCellBlock {
     /**
      * Modifies the existing cell styles of a sub-block of cells.
      * 
+     * Implementation note. The methods adds new styles to the workbook,
+     * it tries to avoid creating duplicate cell styles during single call,
+     * but it doesn't lookup and reuse the styles that were already present
+     * in the workbook before the method was called, so the duplicate styles might be generated.
+     * 
      * @param rowIndices 0-based block-relative indices of rows of a sub-block
      * @param colIndices 0-based block-relative indices of columns of a sub-block
      * @param modifier cell styles modifier
      */
     protected void modifyCellStyle( int[] rowIndices, int[] colIndices, CellStyleModifier modifier )
     {
+        // map from old styles to updated style
         Map<Short, CellStyle> styleMap = new HashMap<Short,CellStyle>();
+        // default style to use if no style is define for a cell
         CellStyle defaultStyle = null;
         for ( int colIx : colIndices ) {
             final Cell[] colCells = cells[colIx];
@@ -220,7 +227,9 @@ public class RCellBlock {
                 Cell cell = colCells[rowIx];
                 CellStyle style = cell.getCellStyle();
                 if ( style == null ) {
+                    // no style, apply the default one
                     if ( defaultStyle == null ) {
+                        // create the default style
                         defaultStyle = getWorkbook().createCellStyle();
                         modifier.modify( defaultStyle );
                     }
@@ -228,9 +237,13 @@ public class RCellBlock {
                 }
                 else {
                     if ( styleMap.containsKey( style.getIndex() ) ) {
+                        // style of the current cell was already encountered
+                        // apply the new style from the map
                         cell.setCellStyle( styleMap.get( style.getIndex() ) );
                     }
                     else {
+                        // apply modifications to the current style
+                        // and put it to the style's map so that it could be reused
                         CellStyle modStyle = getWorkbook().createCellStyle();
                         modStyle.cloneStyleFrom( style );
                         modifier.modify(modStyle);
