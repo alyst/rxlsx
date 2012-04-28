@@ -80,6 +80,11 @@
   blocks
 }
 
+#' Checks if Excel workbook supports XSSF interface
+.isXssf <- function( wb )
+{
+    return ( grepl("XSSF", wb$getClass()$getName() ) )
+}
 
 ########################################################################
 # take an R color and return an XSSFColor object
@@ -134,10 +139,25 @@
     ,'GREY_40_PERCENT' ,'DARK_TEAL' ,'SEA_GREEN' ,'DARK_GREEN'
     ,'OLIVE_GREEN' ,'BROWN' ,'PLUM' ,'INDIGO' ,'GREY_80_PERCENT'
     ,'AUTOMATIC')
-  
-                   
 
-
+#' Converts R color into Excel-compatible color
+.Rcolor2XLcolor <- function( rcolor, isXSSF )
+{
+    if ( isXSSF ) {
+        if ( is.array( rcolor ) ) {
+            return ( sapply( rcolor, .xssfcolor ) )
+        } else {
+            return ( .xssfcolor( rcolor ) )
+        }
+    }
+    else {
+        if ( is.array( rcolor ) ) {
+            return ( sapply( rcolor, function(c) .jshort(INDEXED_COLORS_[toupper( c )]) ) )
+        } else {
+            return ( .jshort(INDEXED_COLORS_[toupper( rcolor )]) )
+        }
+    }
+}
 
 # probably should use
 # .jfield("org.apache.poi.ss.usermodel.CellStyle", NULL, "ALIGN_CENTER") # 2
