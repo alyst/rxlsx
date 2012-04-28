@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 /**
  * A rectangular block of Excel sheet cells.
@@ -83,6 +84,11 @@ public class RCellBlock {
     {
         final Sheet sheet = getSheet();
         return ( sheet != null ? sheet.getWorkbook() : null );
+    }
+
+    public boolean isXSSF()
+    {
+        return ( getSheet() instanceof XSSFSheet );
     }
 
     /**
