@@ -92,63 +92,177 @@ public class RCellBlock {
     }
 
     /**
+     * Interface for modifying cell data.
+     * @see modifyColData()
+     * @see modifyRowData()
+     */
+    public interface CellValueModifier {
+        /**
+         * Length of internal data array
+         */
+        public int dataLength();
+
+        /**
+         * Changes the given cell style
+         * @param cell to modify
+         * @param i index of data element in an internal array to set the cell value to 
+         */
+        public void modify( Cell cell, int i );
+    }
+
+    public class IntCellValueSetter implements CellValueModifier 
+    {
+        private final int[] data;
+        private boolean showNA;
+
+        public IntCellValueSetter( final int[] data, boolean showNA )
+        {
+            this.data = data;
+            this.showNA = showNA;
+        }
+
+        public void modify(Cell cell, int i)
+        {
+            if ( showNA || !RInterface.isNA(data[i])) {
+                cell.setCellValue(data[i]);
+            } else {
+                cell.setCellType(Cell.CELL_TYPE_BLANK);
+            }
+        }
+
+        public int dataLength()
+        {
+            return data.length;
+        }
+        
+    }
+
+    public class DoubleCellValueSetter implements CellValueModifier 
+    {
+        private final double[] data;
+        private boolean showNA;
+
+        public DoubleCellValueSetter( final double[] data, boolean showNA )
+        {
+            this.data = data;
+            this.showNA = showNA;
+        }
+
+        public void modify(Cell cell, int i)
+        {
+            if ( showNA || !RInterface.isNA(data[i])) {
+                cell.setCellValue(data[i]);
+            } else {
+                cell.setCellType(Cell.CELL_TYPE_BLANK);
+            }
+        }
+
+        public int dataLength()
+        {
+            return data.length;
+        }
+        
+    }
+
+    public class StringCellValueSetter implements CellValueModifier 
+    {
+        private final String[] data;
+        private boolean showNA;
+
+        public StringCellValueSetter( final String[] data, boolean showNA )
+        {
+            this.data = data;
+            this.showNA = showNA;
+        }
+
+        public void modify(Cell cell, int i)
+        {
+            if ( showNA || !RInterface.isNA(data[i])) {
+                cell.setCellValue(data[i]);
+            } else {
+                cell.setCellType(Cell.CELL_TYPE_BLANK);
+            }
+        }
+
+        public int dataLength()
+        {
+            return data.length;
+        }
+    }
+
+    /**
+     * Writes a column of data to the sheet using CellValueModifier interface.
+     * @param colIndex 0-based column index relative to cell block
+     * @param rowOffset 0-based row index relative to cell block to start setting values from
+     * @param modifier cells values modifier to apply
+     * @param style style to apply to cells, if null no style is applied
+     */
+    public void modifyColData( int colIndex, int rowOffset,
+            CellValueModifier modifier, CellStyle style ){
+        final Cell[] colCells = cells[colIndex];
+        for (int i=0; i<modifier.dataLength(); i++) {
+            modifier.modify( colCells[rowOffset+i], i);
+        }
+        if ( style != null ) setColCellStyle(style, colIndex, rowOffset, modifier.dataLength() );
+    }
+
+    /**
+     * Writes a row of data to the sheet using CellValueModifier interface.
+     * @param rowIndex 0-based row index relative to cell block
+     * @param colOffset 0-based column index relative to cell block to start setting values from
+     * @param modifier cells values modifier to apply
+     * @param style style to apply to cells, if null no style is applied
+     */
+    public void modifyRowData( int rowIndex, int colOffset,
+            CellValueModifier modifier, CellStyle style ){
+        for (int i=0; i<modifier.dataLength(); i++) {
+           modifier.modify( cells[colOffset+i][rowIndex], i);
+        }
+        if ( style != null ) setRowCellStyle(style, rowIndex, colOffset, modifier.dataLength() );
+    }
+
+    /**
      * Writes a column of data to the sheet.
      * Use for numerics, Dates, DateTimes... 
      */
     public void setColData( int colIndex, int rowOffset, double[] data, boolean showNA, CellStyle style ){
-        final Cell[] colCells = cells[colIndex];
-        for (int i=0; i<data.length; i++) {
-            if ( showNA || !RInterface.isNA(data[i])) {
-                colCells[rowOffset+i].setCellValue(data[i]);
-            } else {
-                colCells[rowOffset+i].setCellType(Cell.CELL_TYPE_BLANK);
-            }
-        }
-        if ( style != null ) setColCellStyle(style, colIndex, rowOffset, data.length);
+        modifyColData(colIndex, rowOffset, new DoubleCellValueSetter(data, showNA), style);
     }
 
     /**
-     * Writes a column of integer to the sheet. 
+     * Writes a column of integers to the sheet. 
      */
     public void setColData( int colIndex, int rowOffset, int[] data, boolean showNA, CellStyle style ){
-        final Cell[] colCells = cells[colIndex];
-        for (int i=0; i<data.length; i++) {
-            if ( showNA || !RInterface.isNA(data[i])) {
-                colCells[rowOffset+i].setCellValue(data[i]);
-            } else {
-                colCells[rowOffset+i].setCellType(Cell.CELL_TYPE_BLANK);
-            }
-        }
-        if ( style != null ) setColCellStyle(style, colIndex, rowOffset, data.length);
+        modifyColData(colIndex, rowOffset, new IntCellValueSetter(data, showNA), style);
     }
 
     /**
      * Writes a column of strings to the sheet.
      */
     public void setColData( int colIndex, int rowOffset, String[] data, boolean showNA, CellStyle style ){
-        final Cell[] colCells = cells[colIndex];
-        for (int i=0; i<data.length; i++) {
-            if ( showNA || !RInterface.isNA(data[i])) {
-                colCells[rowOffset+i].setCellValue(data[i]);
-            } else {
-                colCells[rowOffset+i].setCellType(Cell.CELL_TYPE_BLANK);
-            }
-        }
-        if ( style != null ) setColCellStyle(style, colIndex, rowOffset, data.length);
+        modifyColData(colIndex, rowOffset, new StringCellValueSetter(data, showNA), style);
+    }
+
+    /**
+     * Writes a row of data to the sheet.
+     * Use for numerics, Dates, DateTimes... 
+     */
+    public void setRowData( int rowIndex, int colOffset, double[] data, boolean showNA, CellStyle style ){
+        modifyRowData(rowIndex, colOffset, new DoubleCellValueSetter(data, showNA), style);
+    }
+
+    /**
+     * Writes a row of integers to the sheet.
+     */
+    public void setRowData( int rowIndex, int colOffset, int[] data, boolean showNA, CellStyle style ){
+        modifyRowData(rowIndex, colOffset, new IntCellValueSetter(data, showNA), style);
     }
 
     /**
      * Writes a row of strings to the sheet.
      */
     public void setRowData( int rowIndex, int colOffset, String[] data, boolean showNA, CellStyle style ){
-        for (int i=0; i<data.length; i++) {
-            if ( showNA || !RInterface.isNA(data[i])) {
-                cells[colOffset+i][rowIndex].setCellValue(data[i]);
-            } else {
-                cells[colOffset+i][rowIndex].setCellType(Cell.CELL_TYPE_BLANK);
-            }
-        }
-        if ( style != null ) setRowCellStyle(style, rowIndex, colOffset, data.length);
+        modifyRowData(rowIndex, colOffset, new StringCellValueSetter(data, showNA), style);
     }
 
     /**
